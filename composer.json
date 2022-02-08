@@ -1,0 +1,62 @@
+{
+    "name": "glocurrency/zenith-bank-service",
+    "description": "Zenith Bank service to consume with MW.",
+    "type": "library",
+    "license": "MPL-2.0",
+    "authors": [
+        {
+            "name": "Ivan Stasiuk",
+            "email": "ivan@stasi.uk",
+            "homepage": "https://stasi.uk"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "brokeyourbike/base-models": "^0.3.0",
+        "brokeyourbike/country-casts-laravel": "^0.1.0",
+        "brokeyourbike/has-source-model": "^2.0",
+        "brokeyourbike/zenith-bank-api-client": "^0.3.1",
+        "glocurrency/middleware-blocks": "^0.4.0",
+        "illuminate/contracts": "^8.0|^9.0",
+        "illuminate/database": "^8.0|^9.0"
+    },
+    "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.4",
+        "mockery/mockery": "^1.0",
+        "orchestra/testbench": "^6.0|^7.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "GloCurrency\\ZenithBank\\": "src/",
+            "GloCurrency\\ZenithBank\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GloCurrency\\ZenithBank\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "GloCurrency\\ZenithBank\\ZenithBankServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "bamarni/composer-bin-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "repositories": {
+        "packagist.org": false,
+        "private-packagist": {
+            "type": "composer",
+            "url": "https://repo.packagist.com/glocurrency/"
+        }
+    }
+}
