@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.0](https://www.github.com/glocurrency/zenith-bank-service/compare/v0.1.2...v0.2.0) (2024-03-07)
+
+
+### Features
+
+* update client ([46b56cd](https://www.github.com/glocurrency/zenith-bank-service/commit/46b56cdfacf509b2791e6962e51cfe8e196792ca))
+
 ### [0.1.2](https://www.github.com/glocurrency/zenith-bank-service/compare/v0.1.1...v0.1.2) (2023-05-28)
 
 
