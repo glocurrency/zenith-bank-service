@@ -32,7 +32,9 @@ class TransactionFactory extends Factory
             'debit_account' => $this->faker->numerify('##########'),
             'sender_name' => $this->faker->name(),
             'recipient_account' => $this->faker->numerify('##########'),
+            'recipient_bank_code' => $this->faker->numerify('###'),
             'recipient_name' => $this->faker->name(),
+            'currency_code' => $this->faker->currencyCode(),
             'amount' => $this->faker->randomFloat(2, 1),
             'should_resend' => false,
         ];

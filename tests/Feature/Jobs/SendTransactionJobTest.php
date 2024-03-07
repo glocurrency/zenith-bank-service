@@ -54,11 +54,76 @@ class SendTransactionJobTest extends FeatureTestCase
     }
 
     /** @test */
-    public function it_can_send_transaction(): void
+    public function it_can_send_usd_transaction(): void
     {
         /** @var Transaction */
         $zenithTransaction = Transaction::factory()->create([
             'state_code' => TransactionStateCodeEnum::LOCAL_UNPROCESSED,
+            'currency_code' => 'USD',
+        ]);
+
+        [$httpMock, $stack] = $this->mockApiFor(Client::class);
+        $httpMock->append($this->makeAuthResponse());
+        $httpMock->append(new \GuzzleHttp\Psr7\Response(200, [], '{
+            "responseCode": "' . ErrorCodeEnum::SUCCESS->value . '",
+            "responseDescription": "Money on the way!",
+            "transactionReference": "' . $zenithTransaction->id . '",
+            "posted": "' . PostedStatusEnum::YES->value . '",
+            "postingDate": "' . (string) now() . '",
+            "postingReference": "LOL-123"
+        }'));
+
+        SendTransactionJob::dispatchSync($zenithTransaction);
+
+        /** @var Transaction */
+        $zenithTransaction = $zenithTransaction->fresh();
+
+        $this->assertEquals(TransactionStateCodeEnum::PAID, $zenithTransaction->state_code);
+        $this->assertEquals(PostedStatusEnum::YES, $zenithTransaction->posted_status);
+        $this->assertEquals(ErrorCodeEnum::SUCCESS, $zenithTransaction->error_code);
+        $this->assertSame('Money on the way!', $zenithTransaction->error_code_description);
+    }
+
+    /** @test */
+    public function it_can_send_ngn_other_bank_transaction(): void
+    {
+        /** @var Transaction */
+        $zenithTransaction = Transaction::factory()->create([
+            'state_code' => TransactionStateCodeEnum::LOCAL_UNPROCESSED,
+            'currency_code' => 'USD',
+            'recipient_bank_code' => '111',
+        ]);
+
+        [$httpMock, $stack] = $this->mockApiFor(Client::class);
+        $httpMock->append($this->makeAuthResponse());
+        $httpMock->append(new \GuzzleHttp\Psr7\Response(200, [], '{
+            "responseCode": "' . ErrorCodeEnum::SUCCESS->value . '",
+            "responseDescription": "Money on the way!",
+            "transactionReference": "' . $zenithTransaction->id . '",
+            "posted": "' . PostedStatusEnum::YES->value . '",
+            "postingDate": "' . (string) now() . '",
+            "postingReference": "LOL-123"
+        }'));
+
+        SendTransactionJob::dispatchSync($zenithTransaction);
+
+        /** @var Transaction */
+        $zenithTransaction = $zenithTransaction->fresh();
+
+        $this->assertEquals(TransactionStateCodeEnum::PAID, $zenithTransaction->state_code);
+        $this->assertEquals(PostedStatusEnum::YES, $zenithTransaction->posted_status);
+        $this->assertEquals(ErrorCodeEnum::SUCCESS, $zenithTransaction->error_code);
+        $this->assertSame('Money on the way!', $zenithTransaction->error_code_description);
+    }
+
+    /** @test */
+    public function it_can_send_ngn_domestic_transaction(): void
+    {
+        /** @var Transaction */
+        $zenithTransaction = Transaction::factory()->create([
+            'state_code' => TransactionStateCodeEnum::LOCAL_UNPROCESSED,
+            'currency_code' => 'USD',
+            'recipient_bank_code' => '057',
         ]);
 
         [$httpMock, $stack] = $this->mockApiFor(Client::class);

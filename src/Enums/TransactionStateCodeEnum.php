@@ -13,6 +13,7 @@ enum TransactionStateCodeEnum: string
     case RESULT_JSON_INVALID = 'result_json_invalid';
     case UNEXPECTED_ERROR_CODE = 'unexpected_error_code';
     case PAID = 'paid';
+    case UNKNOWN = 'unknown';
     case API_ERROR = 'api_error';
     case DUPLICATE_TRANSACTION = 'duplicate_transaction';
     case RECIPIENT_BANK_ACCOUNT_INVALID = 'recipient_bank_account_invalid';
@@ -30,6 +31,7 @@ enum TransactionStateCodeEnum: string
             self::RESULT_JSON_INVALID => MProcessingItemStateCodeEnum::EXCEPTION,
             self::UNEXPECTED_ERROR_CODE => MProcessingItemStateCodeEnum::EXCEPTION,
             self::PAID => MProcessingItemStateCodeEnum::PROCESSED,
+            self::UNKNOWN => MProcessingItemStateCodeEnum::MANUAL_RECONCILIATION_REQUIRED,
             self::API_ERROR => MProcessingItemStateCodeEnum::PROVIDER_NOT_ACCEPTING_TRANSACTIONS,
             self::DUPLICATE_TRANSACTION => MProcessingItemStateCodeEnum::EXCEPTION,
             self::RECIPIENT_BANK_ACCOUNT_INVALID => MProcessingItemStateCodeEnum::RECIPIENT_BANK_ACCOUNT_INVALID,

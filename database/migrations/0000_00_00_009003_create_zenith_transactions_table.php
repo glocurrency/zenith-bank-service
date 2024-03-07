@@ -29,7 +29,9 @@ class CreateZenithTransactionsTable extends Migration
             $table->string('debit_account');
             $table->string('sender_name');
             $table->string('recipient_account');
+            $table->string('recipient_bank_code');
             $table->string('recipient_name');
+            $table->char('currency_code', 3);
 
             $table->unsignedDouble('amount');
             $table->boolean('should_resend');

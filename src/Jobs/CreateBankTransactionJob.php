@@ -127,7 +127,9 @@ class CreateBankTransactionJob implements ShouldQueue, ShouldBeUnique, ShouldBeE
             'debit_account' => $debitAccount->account_number,
             'sender_name' => $transactionSender->getName(),
             'recipient_account' => $transactionRecipient->getBankAccount(),
+            'recipient_bank_code' => $transactionRecipient->getBankCode(),
             'recipient_name' => $transactionRecipient->getName(),
+            'currency_code' => $transaction->getOutputAmount()->getCurrency()->getCode(),
             'amount' => $moneyFormatter->format($transaction->getOutputAmount()),
             'should_resend' => false,
         ]);

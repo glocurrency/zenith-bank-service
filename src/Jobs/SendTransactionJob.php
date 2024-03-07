@@ -71,7 +71,21 @@ class SendTransactionJob implements ShouldQueue, ShouldBeUnique, ShouldBeEncrypt
         try {
             /** @var Client */
             $api = App::make(Client::class);
-            $response = $api->sendDomesticTransaction($this->targetTransaction);
+
+            switch ($this->targetTransaction->currency_code) {
+                case 'NGN':
+                    if ($this->targetTransaction->getRecipientBankCode() === '057') {
+                        $response = $api->sendTransaction($this->targetTransaction);
+                    } else {
+                        $response = $api->sendOtherBankTransaction($this->targetTransaction);
+                    }
+                    break;
+                case 'USD':
+                    $response = $api->sendDomesticTransaction($this->targetTransaction);
+                    break;
+                default:
+                    throw new \Exception('currency not supported. check with developer.');
+            }
         } catch (\Throwable $e) {
             report($e);
             throw SendTransactionException::apiRequestException($e);

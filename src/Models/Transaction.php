@@ -31,7 +31,9 @@ use BrokeYourBike\BaseModels\BaseUuid;
  * @property string $debit_account
  * @property string $sender_name
  * @property string $recipient_account
+ * @property string $recipient_bank_code
  * @property string $recipient_name
+ * @property string $currency_code
  * @property float $amount
  * @property bool $should_resend
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -94,6 +96,11 @@ class Transaction extends BaseUuid implements ModelWithStateCodeInterface, Sourc
     public function getRecipientAccount(): string
     {
         return $this->recipient_account;
+    }
+    
+    public function getRecipientBankCode(): string
+    {
+        return $this->recipient_bank_code;
     }
 
     public function getDebitAccount(): string
